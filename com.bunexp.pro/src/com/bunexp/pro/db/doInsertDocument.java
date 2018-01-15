@@ -1,6 +1,5 @@
 package com.bunexp.pro.db;
 
-import java.net.UnknownHostException;
 import java.util.Date;
 
 import org.bson.Document;
@@ -11,31 +10,53 @@ import com.mongodb.client.MongoDatabase;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 
-
-@Path("/insertdoc")
+@Path("/dbManagement")
 public class doInsertDocument {
-	MongoClient clientTestdb = new MongoClient( "localhost" , 27017 );
+	MongoClient clientBunexpdb = new MongoClient("localhost", 27017);
+	MongoDatabase db = clientBunexpdb.getDatabase("bunexp");
+	MongoCollection<Document> coll = db.getCollection("app.users");
+	
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public String insertDocument(){
+	public String insertDocument()  throws Exception {
+		return "Good test ";
+	}
+	
+	@GET
+	@Path("/insertDocument")
+	@Produces(MediaType.TEXT_HTML)
+	public String insertDocument(@QueryParam("firstname") String firstName
+			,@QueryParam("lastname") String lastName
+			, @QueryParam("username") String userName
+			, @QueryParam("password") String password
+			, @QueryParam("role") String role
+			, @QueryParam("gender") String gender)  throws Exception  {
 		try {
-			MongoDatabase db = clientTestdb.getDatabase("testdb");
-			MongoCollection<Document> coll = db.getCollection("user");
 
-			Document doc = new Document("first_name", "Abril").append("last_name", "Linares").append("gender", "Male")
-					.append("insertedTime", new Date().getTime());
-
+			Document credential = new Document ("user_name", userName)
+					.append("password", password);
+			
+			Document InsertedDoc = new Document("first_name", firstName)
+					.append("last_name", lastName)
+					.append("gender", gender)
+					.append("insertedTime", new Date().getTime())
+					.append("credential", credential);
+										
 			// doc.remove("_id"); // remove the _id key
-			coll.insertOne(doc); // second insert
-			//System.out.println(doc.toJson());
-			 
-			return "Inserted successfully for Abril" + new Date().getTime();
+			coll.insertOne(InsertedDoc); // second insert
+
+			Document returnMessage = new Document (
+					"messageId", 104)
+					.append("messageDescrption", "Inserted successfully ")
+					.append("dateTime", new Date().getTime()
+					);
+
+			return returnMessage.toJson();
 
 		} catch (Exception e) {
 			return e.getMessage();
 		} finally {
-			clientTestdb.close();
-			// return "returning Finallyes and no";
+			clientBunexpdb.close();
 		}
 
 	}
