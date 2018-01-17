@@ -1,18 +1,22 @@
 package com.bunexp.pro.db;
 
 import java.util.Date;
-import java.util.List;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import org.bson.Document;
+import org.bson.conversions.Bson;
+
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.*;
-
-@Path("/insertdocument")
-public class doInsertDocument {
+@Path("/updatedocument")
+public class doUpdateDocument {
 	MongoClient clientConnectBunexpdb = new MongoClient("localhost", 27017);
 	MongoDatabase clientBunexpdb = clientConnectBunexpdb.getDatabase("bunexp");
 	MongoCollection<Document> clientUserCollection = clientBunexpdb.getCollection("app.users");	
@@ -26,22 +30,17 @@ public class doInsertDocument {
 			, @QueryParam("role") String role
 			, @QueryParam("gender") String gender)  throws Exception  {
 		try {
-
-			Document credential = new Document ("user_name", userName)
-					.append("password", password);
 			
-			Document InsertedDoc = new Document("first_name", firstName)
-					.append("last_name", lastName)
-					.append("gender", gender)
-					.append("insertedTime", new Date().getTime())
-					.append("credential", credential);
-										
-			// doc.remove("_id"); // remove the _id key
-			clientUserCollection.insertOne(InsertedDoc); // second insert
+			Bson filter = new Document("first_name", firstName);
+			Bson newValue = new Document("last_name", lastName);
+			Bson updateOperationDocument = new Document("$set", newValue);
+			clientUserCollection.updateOne(filter, updateOperationDocument);
+			
+			System.out.println(newValue.toString());
 
 			Document returnMessage = new Document (
 					"messageId", 104)
-					.append("messageDescrption", "Inserted successfully ")
+					.append("messageDescrption", "Update successfully ")
 					.append("dateTime", new Date().getTime()
 					);
 
