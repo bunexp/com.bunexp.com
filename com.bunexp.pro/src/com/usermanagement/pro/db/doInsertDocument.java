@@ -1,4 +1,4 @@
-package com.bunexp.pro.db;
+package com.usermanagement.pro.db;
 
 import java.util.Date;
 import java.util.List;
