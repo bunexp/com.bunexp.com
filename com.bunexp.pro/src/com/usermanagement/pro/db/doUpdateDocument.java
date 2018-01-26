@@ -53,4 +53,16 @@ public class doUpdateDocument {
 		}
 
 	}
+	@Path("/version")
+	@GET
+	@Produces(MediaType.TEXT_HTML)	
+	public String documentversion() throws Exception  {
+		try {			
+			return "updatedocument class version : 0001.00.00";
+		} catch (Exception e) {
+			return e.toString();
+		} finally {
+			clientConnectBunexpdb.close();
+		}
+	}
 }

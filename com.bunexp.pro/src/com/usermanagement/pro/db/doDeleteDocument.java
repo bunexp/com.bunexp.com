@@ -53,4 +53,17 @@ public class doDeleteDocument {
 			clientConnectBunexpdb.close();
 		}
 	}
+	
+	@Path("/version")
+	@GET
+	@Produces(MediaType.TEXT_HTML)	
+	public String getdocumentversion() throws Exception  {
+		try {			
+			return "deletedocument class version : 0001.00.00";
+		} catch (Exception e) {
+			return e.toString();
+		} finally {
+			clientConnectBunexpdb.close();
+		}
+	}
 }

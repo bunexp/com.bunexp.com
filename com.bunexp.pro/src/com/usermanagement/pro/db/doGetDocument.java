@@ -23,14 +23,13 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 
-@Path("/")
+@Path("/getdocument")
 public class doGetDocument {
 
 	List<Document> resultRecordSet;
 	MongoClient clientConnectBunexpdb = new MongoClient("localhost", 27017);
 	MongoDatabase clientBunexpdb = clientConnectBunexpdb.getDatabase("bunexp");
 	MongoCollection<Document> clientUserCollection = clientBunexpdb.getCollection("app.users");
-	@Path("/getdocument")
 	@GET
 	@Produces(MediaType.TEXT_HTML)	
 	public String mongoFind(@QueryParam("firstname") String firstName) throws Exception  {
@@ -52,6 +51,18 @@ public class doGetDocument {
 			// System.out.print(cur.toJson());
 			// }		
 			return resultRecordSet.toString();
+		} catch (Exception e) {
+			return e.toString();
+		} finally {
+			clientConnectBunexpdb.close();
+		}
+	}
+	@Path("/version")
+	@GET
+	@Produces(MediaType.TEXT_HTML)	
+	public String getdocumentversion() throws Exception  {
+		try {			
+			return "getdocument class version : 0001.00.00";
 		} catch (Exception e) {
 			return e.toString();
 		} finally {
