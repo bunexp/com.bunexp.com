@@ -9,6 +9,7 @@ import static com.mongodb.client.model.Projections.include;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.management.relation.Role;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,9 +19,17 @@ import javax.ws.rs.core.MediaType;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.sun.research.ws.wadl.Response;
+
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.MongoClient;
+import com.mongodb.util.JSON;
 
 
 @Path("/getdocument")
@@ -31,15 +40,18 @@ public class doGetDocument {
 	MongoDatabase clientBunexpdb = clientConnectBunexpdb.getDatabase("bunexp");
 	MongoCollection<Document> clientUserCollection = clientBunexpdb.getCollection("app.users");
 	@GET
-	@Produces(MediaType.TEXT_HTML)	
+	@Produces(MediaType.APPLICATION_JSON)
+			//(MediaType.TEXT_HTML)	
 	public String mongoFind(@QueryParam("firstname") String firstName) throws Exception  {
 		try {			
+			
 			Bson filter = and(eq("first_name", firstName)); // , gt("userId", 10), lt("userId", 90));
 			Bson projection = fields(include("_id"
 					,"first_name"
 					, "last_name"
 					,"credential.user_name"
 					,"credential.password"
+					,"gender"
 					,"insertedTime"));
 					//,"insertedTime"), excludeId());
 			resultRecordSet = clientUserCollection
@@ -49,8 +61,9 @@ public class doGetDocument {
 			// for (Document cur : all) {
 			// return cur.toJson();
 			// System.out.print(cur.toJson());
-			// }		
-			return resultRecordSet.toString();
+			// }
+			
+			return JSON.serialize(resultRecordSet);
 		} catch (Exception e) {
 			return e.toString();
 		} finally {
