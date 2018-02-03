@@ -19,30 +19,24 @@ import com.mongodb.client.MongoDatabase;
 public class doUpdateDocument {
 	MongoClient clientConnectBunexpdb = new MongoClient("localhost", 27017);
 	MongoDatabase clientBunexpdb = clientConnectBunexpdb.getDatabase("bunexp");
-	MongoCollection<Document> clientUserCollection = clientBunexpdb.getCollection("app.users");	
+	MongoCollection<Document> clientUserCollection = clientBunexpdb.getCollection("app.users");
 
 	@GET
 	@Produces(MediaType.TEXT_HTML)
-	public String insertDocument(@QueryParam("firstname") String firstName
-			,@QueryParam("lastname") String lastName
-			, @QueryParam("username") String userName
-			, @QueryParam("password") String password
-			, @QueryParam("role") String role
-			, @QueryParam("gender") String gender)  throws Exception  {
+	public String insertDocument(@QueryParam("firstname") String firstName, @QueryParam("lastname") String lastName,
+			@QueryParam("username") String userName, @QueryParam("password") String password,
+			@QueryParam("role") String role, @QueryParam("gender") String gender) throws Exception {
 		try {
-			
+
 			Bson filter = new Document("first_name", firstName);
 			Bson newValue = new Document("last_name", lastName);
 			Bson updateOperationDocument = new Document("$set", newValue);
 			clientUserCollection.updateOne(filter, updateOperationDocument);
-			
+
 			System.out.println(newValue.toString());
 
-			Document returnMessage = new Document (
-					"messageId", 104)
-					.append("messageDescrption", "Update successfully ")
-					.append("dateTime", new Date().getTime()
-					);
+			Document returnMessage = new Document("messageId", 104).append("messageDescrption", "Update successfully ")
+					.append("dateTime", new Date().getTime());
 
 			return returnMessage.toJson();
 
@@ -53,11 +47,12 @@ public class doUpdateDocument {
 		}
 
 	}
+
 	@Path("/version")
 	@GET
-	@Produces(MediaType.TEXT_HTML)	
-	public String documentversion() throws Exception  {
-		try {			
+	@Produces(MediaType.TEXT_HTML)
+	public String documentversion() throws Exception {
+		try {
 			return "updatedocument class version : 0001.00.00";
 		} catch (Exception e) {
 			return e.toString();

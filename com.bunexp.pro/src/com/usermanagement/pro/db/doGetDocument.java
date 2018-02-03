@@ -2,14 +2,12 @@ package com.usermanagement.pro.db;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.Projections.fields;
 import static com.mongodb.client.model.Projections.include;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.management.relation.Role;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -19,16 +17,10 @@ import javax.ws.rs.core.MediaType;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.sun.research.ws.wadl.Response;
 
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.MongoClient;
 import com.mongodb.util.JSON;
 
 
@@ -58,11 +50,7 @@ public class doGetDocument {
 					.find(filter)
 					.projection(projection)
 					.into(new ArrayList<Document>());
-			// for (Document cur : all) {
-			// return cur.toJson();
-			// System.out.print(cur.toJson());
-			// }
-			
+
 			return JSON.serialize(resultRecordSet);
 		} catch (Exception e) {
 			return e.toString();

@@ -1,23 +1,18 @@
 package com.bunexp.pro.db;
 
-import java.util.Date;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import org.bson.Document;
-import org.bson.types.ObjectId;
-
 @Path("/packagedescription")
 public class packageDescription {
 	@GET
 	@Produces(MediaType.TEXT_HTML)	
-	public String packageDescription(@QueryParam("packageName") String packagename) throws Exception  {
+	public String packageDescription(@QueryParam("packageName") String packageName) throws Exception  {
 		try {	
-	        if (packagename.equals("usermanagement")) {
+	        if (packageName.equals("usermanagement")) {
 	        		return "<!DOCTYPE html>\n" + 
 	        				"<html>\n" + 
 	        				"\n" + 
@@ -58,66 +53,21 @@ public class packageDescription {
 	        				"  </body>\n" + 
 	        				"\n" + 
 	        				"</html>";
-	        } else if (packagename == "usermanagement1") {
-	        	return "first "+packagename;
-	        } else if (packagename == "usermanagement2") {
-	        	return "first "+packagename;
-	        } else if (packagename == "usermanagement3") {
-	        	return "first "+packagename;
+	        } else if (packageName == "usermanagement1") {
+	        	return "first "+packageName;
+	        } else if (packageName == "usermanagement2") {
+	        	return "first "+packageName;
+	        } else if (packageName == "usermanagement3") {
+	        	return "first "+packageName;
 	        } else {
-	        	return "first last "+packagename;
+	        	return "first last "+packageName;
 	        }
 			
 		} catch (Exception e) {
 			return e.toString();
 		} finally {
-			System.out.println(packagename);	
+			System.out.println(packageName);	
 		}
 	}
 }
-
-
-
-/*
- <!DOCTYPE html>
-<html>
-
-  <head>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-  </head>
-
-  <body>
-    <h3 align="center">API Description</h3>
-  <table border=1 style="width:100%">
-  <tr>
-    <th align=left>Clase Name</th>
-    <th align=left>Versioin</th>
-    <th align=left>Description</th>
-    <th align=left>Specting</th>
-    <th align=left>Returning</th>
-  </tr>
-  <tr>
-    <td align=left>doInsertDocument</td>
-    <td align=left>0001.00.00</td>
-    <td align=left>Adding users insering</td>
-    <td align=left>firstname,
-lastname,
-username,
-password,
-gender</td>
-    <td>
-      { "messageId" : 104, "messageDescrption" : "Inserted successfully ", "dateTime" : { "$numberLong" : "1516685905660" } }
-    </td>
-  </tr>
-  <tr>
-    <td colspan=10>
-      Example of request:http://bunexp.eastus.cloudapp.azure.com:8080/com.bunexp.pro/api/insertdocument?firstname=bolivar&lastname=soriano&username=bsoriano&password&thisMyPass&gender=masculino
-    </td>
-  </tr>
-</table>
-  </body>
-
-</html>
- */
  
